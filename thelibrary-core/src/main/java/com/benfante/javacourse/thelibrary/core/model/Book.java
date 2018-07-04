@@ -106,7 +106,8 @@ public class Book {
 	public boolean hasAuthor(Author author) {
 		boolean result = false;
 		for (Author currAuthor : authors) {
-			if (currAuthor.equals(author)) {
+			if (currAuthor.hashCode() == author.hashCode()
+					&& currAuthor.equals(author)) {
 				result = true;
 				break;
 			}

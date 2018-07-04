@@ -79,7 +79,7 @@ public class Library {
 		System.out.println("*** Risultato della ricerca per titolo");
 		System.out.println(Arrays.toString(result1));
 		
-		Book[] result2 = app.searchBooksByAuthor(new Author(0, "Agatha", "Christie"));
+		Book[] result2 = app.searchBooksByAuthor(new Author(0, null, null));
 		System.out.println("*** Risultato della ricerca per authore");
 		System.out.println(Arrays.toString(result2));
 		
