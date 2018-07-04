@@ -11,6 +11,7 @@ public class Book {
 	private float price;
 	private Author[] authors;
 	private Publisher publisher;
+	private BookCategory[] categories;
 	private static final Logger log = LoggerFactory.getLogger(Book.class);
 
 	public Book(long id, String title, Author[] authors) {
@@ -73,6 +74,14 @@ public class Book {
 	public void setPublisher(Publisher publisher) {
 		this.publisher = publisher;
 	}
+	
+	public BookCategory[] getCategories() {
+		return categories;
+	}
+
+	public void setCategories(BookCategory[] categories) {
+		this.categories = categories;
+	}
 
 	public void addAuthor(Author author) {
 		log.debug("Adding author with id={}, firstName={}, lastName={}",
@@ -115,10 +124,21 @@ public class Book {
 		return result;
 	}
 
+	public void addCategory(BookCategory category) {
+		log.debug("Adding category {} to the book with id {}.", category, this.id);
+		if (categories == null) {
+			categories = new BookCategory[1];
+		} else {
+			categories = Arrays.copyOf(categories, categories.length + 1);
+		}
+		categories[categories.length - 1] = category;
+	}
+
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", price=" + price + ", author=" + Arrays.toString(authors) + ", publisher="
-				+ publisher + "]";
+		return "Book [id=" + id + ", title=" + title + ", price=" + price + ", authors=" + Arrays.toString(authors)
+				+ ", publisher=" + publisher + ", categories=" + Arrays.toString(categories) + "]";
 	}
+	
 
 }
