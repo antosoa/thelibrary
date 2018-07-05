@@ -1,5 +1,6 @@
 package com.benfante.javacourse.thelibrary.core.model;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 import org.slf4j.Logger;
@@ -8,7 +9,7 @@ import org.slf4j.LoggerFactory;
 public class Book {
 	private long id;
 	private String title;
-	private float price;
+	private BigDecimal price;
 	private Author[] authors;
 	private Publisher publisher;
 	private BookCategory[] categories;
@@ -20,14 +21,14 @@ public class Book {
 		this.authors = authors;
 	}
 
-	public Book(long id, String title, Author[] authors, float price) {
+	public Book(long id, String title, Author[] authors, BigDecimal price) {
 		this.id = id;
 		this.title = title;
 		this.authors = authors;
 		this.price = price;
 	}
 
-	public Book(long id, String title, Author[] authors, Publisher publisher, float price) {
+	public Book(long id, String title, Author[] authors, Publisher publisher, BigDecimal price) {
 		this.id = id;
 		this.title = title;
 		this.authors = authors;
@@ -51,11 +52,11 @@ public class Book {
 		this.title = title;
 	}
 
-	public float getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(float price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 

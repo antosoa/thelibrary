@@ -1,5 +1,6 @@
 package com.benfante.javacourse.thelibrary.core.app;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 import com.benfante.javacourse.thelibrary.core.model.*;
@@ -63,13 +64,13 @@ public class Library {
 		
 		Author author = new Author(0, "Agatha" , "Christie");
 		Publisher publisher = new Publisher(0, "Mondadori");
-		Book book1 = new Book(0, "Dieci Piccoli Indiani", new Author[]{author}, publisher, 10.5f);
+		Book book1 = new Book(0, "Dieci Piccoli Indiani", new Author[]{author}, publisher, BigDecimal.valueOf(10.5));
 		book1.addCategory(BookCategory.LITERATURE_AND_FICTION);
-		Book book2 = new Book(1, "Assassinio sull'Orient Express", new Author[] {author}, publisher, 15.2f);
+		Book book2 = new Book(1, "Assassinio sull'Orient Express", new Author[] {author}, publisher, BigDecimal.valueOf(15.2));
 		book2.addCategory(BookCategory.LITERATURE_AND_FICTION);
 		Author author2 = new Author(1, "J.K.", "Rowling");
 		Publisher publisher2 = new Publisher(1, "Salani");
-		Book book3 = new Book(2, "Harry Potter", new Author[] {author2}, publisher2, 15.45f);
+		Book book3 = new Book(2, "Harry Potter", new Author[] {author2}, publisher2, BigDecimal.valueOf(15.45));
 		book3.addAuthor(new Author(3, "Andrea", "Camilleri"));
 		book3.addCategory(BookCategory.LITERATURE_AND_FICTION);
 		book3.addCategory(BookCategory.HISTORY);
