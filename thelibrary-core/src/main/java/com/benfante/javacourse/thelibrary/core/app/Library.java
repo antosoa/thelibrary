@@ -1,13 +1,16 @@
 package com.benfante.javacourse.thelibrary.core.app;
 
+import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Locale;
+import java.util.Scanner;
 
 import com.benfante.javacourse.thelibrary.core.model.*;
 
 public class Library {
 
-	private Book[] books = new Book[0];
+	Book[] books = new Book[0];
 	
 	public void addBook(Book book) {
 		books = addBook(books, book);
@@ -61,7 +64,76 @@ public class Library {
 
 	public static void main(String[] args) {
 		Library app = new Library();
+		addBooksFromStandardInput(app);
+		app.printBooks();
 		
+	}
+
+	
+	private static void addBooksFromStandardInput(Library app) {
+		Scanner scan = new Scanner(System.in);
+		scan.useLocale(Locale.ENGLISH);
+		Book book = null;
+		do {
+			book = app.loadBook(scan, System.out);
+		} while (book != null);
+	}
+	
+	Book loadBook(Scanner scan, PrintStream out) {
+		Book result = null;
+		out.print("Book Id (-1 to finish): ");
+		long bookId = scan.nextLong();
+		scan.nextLine();
+		if (bookId != -1) {
+			out.print("Book Title: ");
+			String title = scan.nextLine();
+			out.print("Book Price: ");
+			BigDecimal price = scan.nextBigDecimal();
+			result = new Book(bookId, title, new Author[] {}, price);
+			out.print("Author Id: ");
+			long authorId = scan.nextLong();
+			scan.nextLine();
+			while (authorId != -1) {
+				out.print("Author First Name: ");
+				String firstName = scan.nextLine();
+				out.print("Author Last Name: ");
+				String lastName = scan.nextLine();
+				result.addAuthor(new Author(authorId, firstName, lastName));
+				out.print("Author Id (-1 to finish): ");
+				authorId = scan.nextLong();
+				scan.nextLine();
+			}
+			out.print("Pulisher Id: ");
+			long publisherId = scan.nextLong();
+			scan.nextLine();
+			out.print("Pulisher Name: ");
+			String publisherName = scan.nextLine();
+			result.setPublisher(new Publisher(publisherId, publisherName));
+			out.println(buildCategoryMenu());
+			String categoryChoice = scan.next();
+			while (!"x".equalsIgnoreCase(categoryChoice)) {
+				result.addCategory(BookCategory.values()[Integer.parseInt(categoryChoice)-1]);
+				out.println(buildCategoryMenu());
+				categoryChoice = scan.next();
+			}
+			this.addBook(result);
+		}
+		return result;
+	}
+
+	private String buildCategoryMenu() {
+		StringBuilder sb = new StringBuilder();
+		int i = 1;
+		for (BookCategory category: BookCategory.values()) {
+			sb.append(i).append(". ").append(category).append('\n');
+			i++;
+		}
+		sb.append("X. Stop adding categories\n");
+		return sb.toString();
+	}
+	
+	@SuppressWarnings("unused")
+	private static void createSomeBooks(Library app) {
 		Author author = new Author(0, "Agatha" , "Christie");
 		Publisher publisher = new Publisher(0, "Mondadori");
 		Book book1 = new Book(0, "Dieci Piccoli Indiani", new Author[]{author}, publisher, BigDecimal.valueOf(10.5));
@@ -90,8 +162,6 @@ public class Library {
 		
 		app.removeBook(result1[0]);
 		System.out.println("*** Dopo aver rimosso Harry Potter");
-		app.printBooks();
-		
 	}
 
 }

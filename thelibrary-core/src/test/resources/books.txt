@@ -1,0 +1,27 @@
+1
+Dieci Piccoli Indiani
+10.5
+1
+Agatha
+Christie
+-1
+1
+Mondadori
+5 1 X
+2
+The Java Programming Language
+66.49
+2
+Ken
+Arnold
+3
+James
+Gosling
+4
+David
+Holmes
+-1
+2
+Addison-Wesley Professional
+3 x
+-1
