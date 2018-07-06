@@ -1,12 +1,14 @@
 package com.benfante.javacourse.thelibrary.core.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Book {
+public class Book implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private String title;
 	private BigDecimal price;

@@ -2,6 +2,7 @@ package com.benfante.javacourse.thelibrary.core.app;
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -60,6 +61,16 @@ public class LibraryTest {
 			assertNotNull(app.books);
 			assertEquals(2, app.books.length);
 		}
+	}
+	
+	@Test
+	public void testLoadArchive() throws FileNotFoundException, ClassNotFoundException, IOException {
+		Library app = new Library();
+		try (InputStream is = this.getClass().getResourceAsStream("/archive.dat");) {
+			app.loadArchive(is);
+		}
+		assertNotNull(app.books);
+		assertEquals(2, app.books.length);
 	}
 
 }
