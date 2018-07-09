@@ -13,7 +13,9 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -27,26 +29,18 @@ import com.benfante.javacourse.thelibrary.core.model.*;
 public class Library {
 	private static final Logger log = LoggerFactory.getLogger(Library.class);
 
-	Book[] books = new Book[0];
+	Collection<Book> books = new ArrayList<>();
 
 	public void addBook(Book book) {
-		books = addBook(books, book);
+		books.add(book);
 	}
 
 	public void removeBook(Book book) {
-		for (int i = 0; i < books.length; i++) {
-			if (book.equals(books[i])) {
-				Book[] newBooks = new Book[books.length - 1];
-				System.arraycopy(books, 0, newBooks, 0, i);
-				System.arraycopy(books, i + 1, newBooks, i, books.length - i - 1);
-				books = newBooks;
-				break;
-			}
-		}
+		books.remove(book);
 	}
 
 	public void printBooks() {
-		System.out.println(Arrays.toString(books));
+		System.out.println(books);
 	}
 
 	public Book[] searchBooksByTitle(String title) {
@@ -102,10 +96,11 @@ public class Library {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	void loadArchive(InputStream is) throws IOException, ClassNotFoundException {
-		Book[] books = null;
+		Collection<Book> books = null;
 		ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(is));
-		books = (Book[]) ois.readObject();
+		books = (Collection<Book>) ois.readObject();
 		if (books != null) {
 			for (Book book : books) {
 				this.addBook(book);

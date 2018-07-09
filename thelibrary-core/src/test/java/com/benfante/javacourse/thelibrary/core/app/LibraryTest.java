@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.Locale;
 import java.util.Scanner;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.benfante.javacourse.thelibrary.core.model.Book;
@@ -59,7 +60,7 @@ public class LibraryTest {
 				book = app.loadBook(scan, nullPrintStream);
 			} while (book != null);
 			assertNotNull(app.books);
-			assertEquals(2, app.books.length);
+			assertEquals(2, app.books.size());
 		}
 	}
 	
@@ -70,7 +71,21 @@ public class LibraryTest {
 			app.loadArchive(is);
 		}
 		assertNotNull(app.books);
-		assertEquals(2, app.books.length);
+		assertEquals(2, app.books.size());
+	}
+	
+	@Ignore("Not yet...the solution in the next exercise")
+	@Test
+	public void testRemoveBook() throws ClassNotFoundException, IOException {
+		Library app = new Library();
+		try (InputStream is = this.getClass().getResourceAsStream("/archive.dat");) {
+			app.loadArchive(is);
+		}
+		assertNotNull(app.books);
+		int originalSize = app.books.size();
+		Book containedBook = app.books.iterator().next();
+		app.removeBook(new Book(containedBook.getId(), null, null));
+		assertEquals(originalSize - 1, app.books.size());
 	}
 
 }
