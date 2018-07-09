@@ -37,10 +37,10 @@ public class LibraryTest {
 			assertEquals(1, book1.getId());
 			assertEquals("Dieci Piccoli Indiani", book1.getTitle());
 			assertEquals(BigDecimal.valueOf(10.5), book1.getPrice());
-			assertEquals(1, book1.getAuthors().length);
-			assertEquals(1, book1.getAuthors()[0].getId());
-			assertEquals("Agatha", book1.getAuthors()[0].getFirstName());
-			assertEquals("Christie", book1.getAuthors()[0].getLastName());
+			assertEquals(1, book1.getAuthors().size());
+			assertEquals(1, book1.getAuthors().get(0).getId());
+			assertEquals("Agatha", book1.getAuthors().get(0).getFirstName());
+			assertEquals("Christie", book1.getAuthors().get(0).getLastName());
 			assertNotNull(book1.getPublisher());
 			assertEquals(1, book1.getPublisher().getId());
 			assertEquals("Mondadori", book1.getPublisher().getName());

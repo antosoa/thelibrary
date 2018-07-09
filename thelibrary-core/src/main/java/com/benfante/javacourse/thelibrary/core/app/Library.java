@@ -14,6 +14,8 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -138,7 +140,7 @@ public class Library {
 			String title = scan.nextLine();
 			out.print("Book Price: ");
 			BigDecimal price = scan.nextBigDecimal();
-			result = new Book(bookId, title, new Author[] {}, price);
+			result = new Book(bookId, title, new LinkedList<>(), price);
 			out.print("Author Id: ");
 			long authorId = scan.nextLong();
 			scan.nextLine();
@@ -185,14 +187,20 @@ public class Library {
 	private static void createSomeBooks(Library app) {
 		Author author = new Author(0, "Agatha", "Christie");
 		Publisher publisher = new Publisher(0, "Mondadori");
-		Book book1 = new Book(0, "Dieci Piccoli Indiani", new Author[] { author }, publisher, BigDecimal.valueOf(10.5));
+		List<Author> authors = new LinkedList<>();
+		authors.add(author);
+		Book book1 = new Book(0, "Dieci Piccoli Indiani", authors, publisher, BigDecimal.valueOf(10.5));
 		book1.addCategory(BookCategory.LITERATURE_AND_FICTION);
-		Book book2 = new Book(1, "Assassinio sull'Orient Express", new Author[] { author }, publisher,
+		authors = new LinkedList<>();
+		authors.add(author);
+		Book book2 = new Book(1, "Assassinio sull'Orient Express", authors, publisher,
 				BigDecimal.valueOf(15.2));
 		book2.addCategory(BookCategory.LITERATURE_AND_FICTION);
 		Author author2 = new Author(1, "J.K.", "Rowling");
 		Publisher publisher2 = new Publisher(1, "Salani");
-		Book book3 = new Book(2, "Harry Potter", new Author[] { author2 }, publisher2, BigDecimal.valueOf(15.45));
+		authors = new LinkedList<>();
+		authors.add(author2);
+		Book book3 = new Book(2, "Harry Potter", authors, publisher2, BigDecimal.valueOf(15.45));
 		book3.addAuthor(new Author(3, "Andrea", "Camilleri"));
 		book3.addCategory(BookCategory.LITERATURE_AND_FICTION);
 		book3.addCategory(BookCategory.HISTORY);

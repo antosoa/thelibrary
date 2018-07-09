@@ -3,34 +3,35 @@ package com.benfante.javacourse.thelibrary.core.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Book implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	private long id;
 	private String title;
 	private BigDecimal price;
-	private Author[] authors;
+	private List<Author> authors;
 	private Publisher publisher;
 	private BookCategory[] categories;
 	private static final Logger log = LoggerFactory.getLogger(Book.class);
 
-	public Book(long id, String title, Author[] authors) {
+	public Book(long id, String title, List<Author> authors) {
 		this.id = id;
 		this.title = title;
 		this.authors = authors;
 	}
 
-	public Book(long id, String title, Author[] authors, BigDecimal price) {
+	public Book(long id, String title, List<Author> authors, BigDecimal price) {
 		this.id = id;
 		this.title = title;
 		this.authors = authors;
 		this.price = price;
 	}
 
-	public Book(long id, String title, Author[] authors, Publisher publisher, BigDecimal price) {
+	public Book(long id, String title, List<Author> authors, Publisher publisher, BigDecimal price) {
 		this.id = id;
 		this.title = title;
 		this.authors = authors;
@@ -62,11 +63,11 @@ public class Book implements Serializable {
 		this.price = price;
 	}
 
-	public Author[] getAuthors() {
+	public List<Author> getAuthors() {
 		return authors;
 	}
 
-	public void setAuthors(Author[] authors) {
+	public void setAuthors(List<Author> authors) {
 		this.authors = authors;
 	}
 
@@ -89,42 +90,11 @@ public class Book implements Serializable {
 	public void addAuthor(Author author) {
 		log.debug("Adding author with id={}, firstName={}, lastName={}",
 				author.getId(), author.getFirstName(), author.getLastName());
-		authors = expandArrayWithCopyOf();
-		// authors = expandArrayWithFor();
-		// authors = expandArrayWithArrayCopy();
-		authors[authors.length - 1] = author;
-	}
-
-	@SuppressWarnings("unused")
-	private Author[] expandArrayWithFor() {
-		Author[] newAuthors = new Author[authors.length + 1];
-		for (int i = 0; i < authors.length; i++) {
-			newAuthors[i] = authors[i];
-		}
-		return newAuthors;
-	}
-
-	@SuppressWarnings("unused")
-	private Author[] expandArrayWithArrayCopy() {
-		Author[] newAuthors = new Author[authors.length + 1];
-		System.arraycopy(authors, 0, newAuthors, 0, authors.length);
-		return newAuthors;
-	}
-
-	private Author[] expandArrayWithCopyOf() {
-		return Arrays.copyOf(authors, authors.length + 1);
+		this.authors.add(author);
 	}
 
 	public boolean hasAuthor(Author author) {
-		boolean result = false;
-		for (Author currAuthor : authors) {
-			if (currAuthor.hashCode() == author.hashCode()
-					&& currAuthor.equals(author)) {
-				result = true;
-				break;
-			}
-		}
-		return result;
+		return this.authors.contains(author);
 	}
 
 	public void addCategory(BookCategory category) {
@@ -139,9 +109,8 @@ public class Book implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", price=" + price + ", authors=" + Arrays.toString(authors)
+		return "Book [id=" + id + ", title=" + title + ", price=" + price + ", authors=" + authors
 				+ ", publisher=" + publisher + ", categories=" + Arrays.toString(categories) + "]";
 	}
-	
 
 }
