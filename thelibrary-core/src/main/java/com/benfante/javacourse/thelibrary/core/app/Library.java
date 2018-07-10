@@ -17,11 +17,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,15 +36,65 @@ public class Library {
 	private static final Logger log = LoggerFactory.getLogger(Library.class);
 
 	Collection<Book> books = new HashSet<>();
+	Map<String, Set<Book>> booksByTitle = new HashMap<>();
+	Map<Author, Set<Book>> booksByAuthor = new HashMap<>();
 
 	public void addBook(Book book) {
 		books.add(book);
+		updateIndexesForAdd(book);
 	}
 
+	private void updateIndexesForAdd(Book book) {
+		updateTitleIndexForAdd(book);
+		updateAuthorIndexForAdd(book);
+	}
+
+	private void updateTitleIndexForAdd(Book book) {
+		Set<Book> booksOfTitle = booksByTitle.get(book.getTitle());
+		if (booksOfTitle == null) {
+			booksOfTitle = new HashSet<>();
+			booksByTitle.put(book.getTitle(), booksOfTitle);
+		}
+		booksOfTitle.add(book);
+	}
+
+	private void updateAuthorIndexForAdd(Book book) {
+		for(Author author: book.getAuthors()) {
+			Set<Book> booksOfAuthor = booksByAuthor.get(author);
+			if (booksOfAuthor == null) {
+				booksOfAuthor = new HashSet<>();
+				booksByAuthor.put(author, booksOfAuthor);
+			}
+			booksOfAuthor.add(book);
+		}
+	}
+	
 	public void removeBook(Book book) {
 		books.remove(book);
+		updateIndexesForRemove(book);
 	}
 
+	private void updateIndexesForRemove(Book book) {
+		updateTitleIndexForRemove(book);
+		updateAuthorIndexForRemove(book);
+	}
+
+	private void updateTitleIndexForRemove(Book book) {
+		Set<Book> booksOfTitle = booksByTitle.get(book.getTitle());
+		if (booksOfTitle != null) {
+			booksOfTitle.remove(book);
+		}
+	}
+
+	private void updateAuthorIndexForRemove(Book book) {
+		for(Author author: book.getAuthors()) {
+			Set<Book> booksOfAuthor = booksByAuthor.get(author);
+			if (booksOfAuthor != null) {
+				booksOfAuthor.remove(book);
+			}
+		}
+	}
+	
 	public void printBooks() {
 		List<Book> booksAsList = new ArrayList<Book>(books);
 		Collections.sort(booksAsList, new BookTitleComparator());
@@ -50,31 +103,19 @@ public class Library {
 
 	public Book[] searchBooksByTitle(String title) {
 		Book[] result = null;
-		for (Book book : books) {
-			if (title.equals(book.getTitle())) {
-				result = addBook(result, book);
-			}
+		Set<Book> booksOfTitle = booksByTitle.get(title);
+		if (booksOfTitle != null) {
+			result = booksOfTitle.toArray(new Book[0]);
 		}
 		return result;
 	}
 
 	public Book[] searchBooksByAuthor(Author author) {
 		Book[] result = null;
-		for (Book book : books) {
-			if (book.hasAuthor(author)) {
-				result = addBook(result, book);
-			}
+		Set<Book> booksOfAuthor = booksByAuthor.get(author);
+		if (booksOfAuthor != null) {
+			result = booksOfAuthor.toArray(new Book[0]);
 		}
-		return result;
-	}
-
-	private Book[] addBook(Book[] result, Book book) {
-		if (result == null) {
-			result = new Book[1];
-		} else {
-			result = Arrays.copyOf(result, result.length + 1);
-		}
-		result[result.length - 1] = book;
 		return result;
 	}
 

@@ -13,6 +13,7 @@ import java.util.Scanner;
 
 import org.junit.Test;
 
+import com.benfante.javacourse.thelibrary.core.model.Author;
 import com.benfante.javacourse.thelibrary.core.model.Book;
 
 public class LibraryTest {
@@ -60,7 +61,7 @@ public class LibraryTest {
 				book = app.loadBook(scan, nullPrintStream);
 			} while (book != null);
 			assertNotNull(app.books);
-			assertEquals(2, app.books.size());
+			assertEquals(3, app.books.size());
 		}
 	}
 	
@@ -71,7 +72,7 @@ public class LibraryTest {
 			app.loadArchive(is);
 		}
 		assertNotNull(app.books);
-		assertEquals(2, app.books.size());
+		assertEquals(3, app.books.size());
 	}
 	
 	@Test
@@ -98,6 +99,57 @@ public class LibraryTest {
 		Book containedBook = app.books.iterator().next();
 		app.addBook(new Book(containedBook.getId(), null, null));
 		assertEquals(originalSize, app.books.size());
+	}
+
+	@Test
+	public void testSearchBookByTitle() throws ClassNotFoundException, IOException {
+		Library app = new Library();
+		try (InputStream is = this.getClass().getResourceAsStream("/archive.dat");) {
+			app.loadArchive(is);
+		}
+		String title = "Dieci Piccoli Indiani";
+		Book[] searchResult = app.searchBooksByTitle(title);
+		assertEquals(1, searchResult.length);
+		assertEquals(title, searchResult[0].getTitle());
+	}
+
+	@Test
+	public void testSearchBookByTitleAfterRemove() throws ClassNotFoundException, IOException {
+		Library app = new Library();
+		try (InputStream is = this.getClass().getResourceAsStream("/archive.dat");) {
+			app.loadArchive(is);
+		}
+		String title = "Dieci Piccoli Indiani";
+		Book[] searchResult = app.searchBooksByTitle(title);
+		app.removeBook(searchResult[0]);
+		searchResult = app.searchBooksByTitle(title);
+		assertEquals(0, searchResult.length);
+	}
+	
+	@Test
+	public void testSearchBookByAuthor() throws ClassNotFoundException, IOException {
+		Library app = new Library();
+		try (InputStream is = this.getClass().getResourceAsStream("/archive.dat");) {
+			app.loadArchive(is);
+		}
+		Author author = new Author(1, "Agatha", "Christie");
+		Book[] searchResult = app.searchBooksByAuthor(author);
+		assertEquals(2, searchResult.length);
+		assertTrue(searchResult[0].hasAuthor(author));
+		assertTrue(searchResult[1].hasAuthor(author));
+	}
+
+	@Test
+	public void testSearchBookByAuthorAfterRemove() throws ClassNotFoundException, IOException {
+		Library app = new Library();
+		try (InputStream is = this.getClass().getResourceAsStream("/archive.dat");) {
+			app.loadArchive(is);
+		}
+		Author author = new Author(1, "Agatha", "Christie");
+		Book[] searchResult = app.searchBooksByAuthor(author);
+		app.removeBook(searchResult[0]);
+		searchResult = app.searchBooksByAuthor(author);
+		assertEquals(1, searchResult.length);
 	}
 	
 }

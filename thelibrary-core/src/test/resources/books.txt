@@ -26,4 +26,15 @@ Holmes
 2
 Addison-Wesley Professional
 3 x
+3
+0000-1111-3333
+Assassinio sull'Orient Express
+10.5
+1
+Agatha
+Christie
+-1
+1
+Mondadori
+5 1 X
 -1
