@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import java.util.Locale;
 import java.util.Scanner;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.benfante.javacourse.thelibrary.core.model.Book;
@@ -74,7 +73,6 @@ public class LibraryTest {
 		assertEquals(2, app.books.size());
 	}
 	
-	@Ignore("Not yet...the solution in the next exercise")
 	@Test
 	public void testRemoveBook() throws ClassNotFoundException, IOException {
 		Library app = new Library();

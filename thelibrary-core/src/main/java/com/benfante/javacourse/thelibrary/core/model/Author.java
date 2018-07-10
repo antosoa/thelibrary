@@ -2,7 +2,7 @@ package com.benfante.javacourse.thelibrary.core.model;
 
 import java.io.Serializable;
 
-public class Author implements Serializable {
+public class Author implements Serializable, Comparable<Author> {
 	private static final long serialVersionUID = 1L;
 	private long id;
 	private String firstName;
@@ -63,6 +63,11 @@ public class Author implements Serializable {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Author o) {
+		return (int) (this.id - o.id);
 	}
 
 }
