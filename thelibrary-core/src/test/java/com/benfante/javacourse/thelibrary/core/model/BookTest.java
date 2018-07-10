@@ -65,5 +65,22 @@ public class BookTest {
 		assertEquals(2, book.getAuthors().size());
 		assertEquals(1L, book.getAuthors().get(1).getId());
 	}
+
+	@Test
+	public void testAddCategory() {
+		long id = 0;
+		String title = "A title";
+		List<Author> authors = new LinkedList<>();
+		authors.add(new Author(0, "The", "single author"));
+		Publisher publisher = new Publisher(0, "A publisher");
+		BigDecimal price = BigDecimal.valueOf(1.23);
+		Book book = new Book(id, title, authors, publisher, price);
+		book.addCategory(BookCategory.COMPUTERS_AND_TECHNOLOGY);
+		book.addCategory(BookCategory.OTHER);
+		book.addCategory(BookCategory.COMPUTERS_AND_TECHNOLOGY);
+		BookCategory[] categories = book.getCategories();
+		assertEquals(2, categories.length);
+		assertEquals(BookCategory.OTHER, categories[0]);
+	}
 	
 }

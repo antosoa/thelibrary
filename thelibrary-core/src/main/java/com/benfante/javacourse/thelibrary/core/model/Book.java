@@ -5,11 +5,13 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Book implements Serializable, Comparable<Book> {
+public class Book implements Serializable/* , Comparable<Book> */ {
 	private static final long serialVersionUID = 3L;
 	private long id;
 	private String isbn;
@@ -17,7 +19,7 @@ public class Book implements Serializable, Comparable<Book> {
 	private BigDecimal price;
 	private List<Author> authors = new ArrayList<>();
 	private Publisher publisher;
-	private BookCategory[] categories;
+	private SortedSet<BookCategory> categories = new TreeSet<>();
 	private static final Logger log = LoggerFactory.getLogger(Book.class);
 
 	public Book(long id, String title, List<Author> authors) {
@@ -94,11 +96,14 @@ public class Book implements Serializable, Comparable<Book> {
 	}
 	
 	public BookCategory[] getCategories() {
-		return categories;
+		return categories.toArray(new BookCategory[0]);
 	}
 
 	public void setCategories(BookCategory[] categories) {
-		this.categories = categories;
+		this.categories.clear();
+		for (BookCategory bookCategory : categories) {
+			this.categories.add(bookCategory);
+		}
 	}
 
 	public void addAuthor(Author author) {
@@ -113,18 +118,13 @@ public class Book implements Serializable, Comparable<Book> {
 
 	public void addCategory(BookCategory category) {
 		log.debug("Adding category {} to the book with id {}.", category, this.id);
-		if (categories == null) {
-			categories = new BookCategory[1];
-		} else {
-			categories = Arrays.copyOf(categories, categories.length + 1);
-		}
-		categories[categories.length - 1] = category;
+		this.categories.add(category);
 	}
 
 	@Override
 	public String toString() {
 		return "Book [id=" + id + ", isbn=" + isbn + ", title=" + title + ", price=" + price + ", authors=" + authors
-				+ ", publisher=" + publisher + ", categories=" + Arrays.toString(categories) + "]";
+				+ ", publisher=" + publisher + ", categories=" + categories + "]";
 	}
 
 	@Override
@@ -149,7 +149,7 @@ public class Book implements Serializable, Comparable<Book> {
 		return true;
 	}
 
-	@Override
+	//@Override
 	public int compareTo(Book o) {
 		return (int) (this.id - o.id);
 	}
