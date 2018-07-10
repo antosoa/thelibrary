@@ -1,4 +1,5 @@
 1
+0000-1111-2222
 Dieci Piccoli Indiani
 10.5
 1
@@ -9,6 +10,7 @@ Christie
 Mondadori
 5 1 X
 2
+0000-1111-0000
 The Java Programming Language
 66.49
 2

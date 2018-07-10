@@ -10,8 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Book implements Serializable, Comparable<Book> {
-	private static final long serialVersionUID = 2L;
+	private static final long serialVersionUID = 3L;
 	private long id;
+	private String isbn;
 	private String title;
 	private BigDecimal price;
 	private List<Author> authors = new ArrayList<>();
@@ -37,12 +38,25 @@ public class Book implements Serializable, Comparable<Book> {
 		this.publisher = publisher;
 	}
 
+	public Book(long id, String isbn, String title, List<Author> authors, Publisher publisher, BigDecimal price) {
+		this(id, title, authors, publisher, price);
+		this.isbn = isbn;
+	}
+	
 	public long getId() {
 		return id;
 	}
 
 	public void setId(long id) {
 		this.id = id;
+	}
+	
+	public String getIsbn() {
+		return isbn;
+	}
+
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
 	}
 
 	public String getTitle() {
@@ -109,7 +123,7 @@ public class Book implements Serializable, Comparable<Book> {
 
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", price=" + price + ", authors=" + authors
+		return "Book [id=" + id + ", isbn=" + isbn + ", title=" + title + ", price=" + price + ", authors=" + authors
 				+ ", publisher=" + publisher + ", categories=" + Arrays.toString(categories) + "]";
 	}
 

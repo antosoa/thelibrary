@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -25,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.benfante.javacourse.thelibrary.core.model.*;
+import com.benfante.javacourse.thelibrary.core.model.comparator.BookIsbnComparator;
 
 public class Library {
 	private static final Logger log = LoggerFactory.getLogger(Library.class);
@@ -40,7 +42,9 @@ public class Library {
 	}
 
 	public void printBooks() {
-		System.out.println(books);
+		ArrayList<Book> booksAsList = new ArrayList<Book>(books);
+		Collections.sort(booksAsList, new BookIsbnComparator());
+		System.out.println(booksAsList);
 	}
 
 	public Book[] searchBooksByTitle(String title) {
@@ -131,11 +135,13 @@ public class Library {
 		long bookId = scan.nextLong();
 		scan.nextLine();
 		if (bookId != -1) {
+			out.print("Book ISBN: ");
+			String isbn = scan.nextLine();
 			out.print("Book Title: ");
 			String title = scan.nextLine();
 			out.print("Book Price: ");
 			BigDecimal price = scan.nextBigDecimal();
-			result = new Book(bookId, title, new LinkedList<>(), price);
+			result = new Book(bookId, isbn, title, new LinkedList<>(), null, price);
 			out.print("Author Id: ");
 			long authorId = scan.nextLong();
 			scan.nextLine();

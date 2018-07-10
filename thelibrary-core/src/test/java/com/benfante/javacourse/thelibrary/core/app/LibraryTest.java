@@ -35,6 +35,7 @@ public class LibraryTest {
 			Book book1 = app.loadBook(scan, nullPrintStream);
 			assertNotNull(book1);
 			assertEquals(1, book1.getId());
+			assertEquals("0000-1111-2222", book1.getIsbn());
 			assertEquals("Dieci Piccoli Indiani", book1.getTitle());
 			assertEquals(BigDecimal.valueOf(10.5), book1.getPrice());
 			assertEquals(1, book1.getAuthors().size());
