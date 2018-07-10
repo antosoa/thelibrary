@@ -26,7 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.benfante.javacourse.thelibrary.core.model.*;
-import com.benfante.javacourse.thelibrary.core.model.comparator.BookIsbnComparator;
+import com.benfante.javacourse.thelibrary.core.model.comparator.*;
 
 public class Library {
 	private static final Logger log = LoggerFactory.getLogger(Library.class);
@@ -43,7 +43,7 @@ public class Library {
 
 	public void printBooks() {
 		ArrayList<Book> booksAsList = new ArrayList<Book>(books);
-		Collections.sort(booksAsList, new BookIsbnComparator());
+		Collections.sort(booksAsList, new BookTitleComparator());
 		System.out.println(booksAsList);
 	}
 
