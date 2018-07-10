@@ -3,7 +3,6 @@ package com.benfante.javacourse.thelibrary.core.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -11,7 +10,7 @@ import java.util.TreeSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Book implements Serializable/* , Comparable<Book> */ {
+public class Book implements Serializable, Comparable<Book> {
 	private static final long serialVersionUID = 3L;
 	private long id;
 	private String isbn;
@@ -149,7 +148,7 @@ public class Book implements Serializable/* , Comparable<Book> */ {
 		return true;
 	}
 
-	//@Override
+	@Override
 	public int compareTo(Book o) {
 		return (int) (this.id - o.id);
 	}
