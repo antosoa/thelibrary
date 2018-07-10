@@ -87,4 +87,17 @@ public class LibraryTest {
 		assertEquals(originalSize - 1, app.books.size());
 	}
 
+	@Test
+	public void testAddExistentBook() throws ClassNotFoundException, IOException {
+		Library app = new Library();
+		try (InputStream is = this.getClass().getResourceAsStream("/archive.dat");) {
+			app.loadArchive(is);
+		}
+		assertNotNull(app.books);
+		int originalSize = app.books.size();
+		Book containedBook = app.books.iterator().next();
+		app.addBook(new Book(containedBook.getId(), null, null));
+		assertEquals(originalSize, app.books.size());
+	}
+	
 }

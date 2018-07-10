@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -31,7 +32,7 @@ import com.benfante.javacourse.thelibrary.core.model.comparator.*;
 public class Library {
 	private static final Logger log = LoggerFactory.getLogger(Library.class);
 
-	Collection<Book> books = new ArrayList<>();
+	Collection<Book> books = new HashSet<>();
 
 	public void addBook(Book book) {
 		books.add(book);
@@ -42,7 +43,7 @@ public class Library {
 	}
 
 	public void printBooks() {
-		ArrayList<Book> booksAsList = new ArrayList<Book>(books);
+		List<Book> booksAsList = new ArrayList<Book>(books);
 		Collections.sort(booksAsList, new BookTitleComparator());
 		System.out.println(booksAsList);
 	}
