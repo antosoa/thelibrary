@@ -52,6 +52,12 @@ public class LibraryTest {
 	@Test
 	public void testLoadAllBooks() throws IOException {
 		Library app = new Library();
+		loadAllBooks(app);
+		assertNotNull(app.books);
+		assertEquals(3, app.books.size());
+	}
+
+	private void loadAllBooks(Library app) throws IOException {
 		try (InputStream is = this.getClass().getResourceAsStream("/books.txt");
 				Scanner scan = new Scanner(is);
 		) {
@@ -60,8 +66,6 @@ public class LibraryTest {
 			do {
 				book = app.loadBook(scan, nullPrintStream);
 			} while (book != null);
-			assertNotNull(app.books);
-			assertEquals(3, app.books.size());
 		}
 	}
 	
@@ -152,4 +156,43 @@ public class LibraryTest {
 		assertEquals(1, searchResult.length);
 	}
 	
+	@Test
+	public void testSearchBookByIsbn() throws ClassNotFoundException, IOException {
+		Library app = new Library();
+		try (InputStream is = this.getClass().getResourceAsStream("/archive.dat");) {
+			app.loadArchive(is);
+		}
+		String isbn = "0000-1111-0000";
+		Book searchResult = app.searchBooksByIsbn(isbn);
+		assertNotNull(searchResult);
+		assertEquals(isbn, searchResult.getIsbn());
+	}
+
+	@Test
+	public void testSearchBookByIsbnAfterRemove() throws ClassNotFoundException, IOException {
+		Library app = new Library();
+		try (InputStream is = this.getClass().getResourceAsStream("/archive.dat");) {
+			app.loadArchive(is);
+		}
+		String isbn = "0000-1111-0000";
+		Book searchResult = app.searchBooksByIsbn(isbn);
+		app.removeBook(searchResult);
+		searchResult = app.searchBooksByIsbn(isbn);
+		assertNull(searchResult);
+	}
+	
+	@Test
+	public void testAuthorsNotDuplicated() throws ClassNotFoundException, IOException {
+		Library app = new Library();
+		loadAllBooks(app);
+		for(Author author: app.booksByAuthor.keySet()) {
+			for(Book book: app.booksByAuthor.get(author)) {
+				for (Author bookAuthor : book.getAuthors()) {
+					if(bookAuthor.equals(author)) {
+						assertTrue(bookAuthor == author);
+					}
+				}
+			}
+		}
+	}
 }

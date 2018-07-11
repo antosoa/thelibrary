@@ -38,6 +38,7 @@ public class Library {
 	Collection<Book> books = new HashSet<>();
 	Map<String, Set<Book>> booksByTitle = new HashMap<>();
 	Map<Author, Set<Book>> booksByAuthor = new HashMap<>();
+	Map<String, Book> booksByIsbn = new HashMap<>();
 
 	public void addBook(Book book) {
 		books.add(book);
@@ -47,6 +48,11 @@ public class Library {
 	private void updateIndexesForAdd(Book book) {
 		updateTitleIndexForAdd(book);
 		updateAuthorIndexForAdd(book);
+		updateIsbnIndexForAdd(book);
+	}
+
+	private void updateIsbnIndexForAdd(Book book) {
+		booksByIsbn.put(book.getIsbn(), book);
 	}
 
 	private void updateTitleIndexForAdd(Book book) {
@@ -77,6 +83,11 @@ public class Library {
 	private void updateIndexesForRemove(Book book) {
 		updateTitleIndexForRemove(book);
 		updateAuthorIndexForRemove(book);
+		updateIsbnIndexForRemove(book);
+	}
+
+	private void updateIsbnIndexForRemove(Book book) {
+		booksByIsbn.remove(book.getIsbn());
 	}
 
 	private void updateTitleIndexForRemove(Book book) {
@@ -119,6 +130,10 @@ public class Library {
 		return result;
 	}
 
+	public Book searchBooksByIsbn(String isbn) {
+		return booksByIsbn.get(isbn);
+	}
+	
 	public void storeArchive() throws FileNotFoundException, IOException {
 		try (OutputStream fos = new FileOutputStream(new File("archive.dat"));) {
 			storeArchive(fos);
@@ -192,7 +207,11 @@ public class Library {
 				String firstName = scan.nextLine();
 				out.print("Author Last Name: ");
 				String lastName = scan.nextLine();
-				result.addAuthor(new Author(authorId, firstName, lastName));
+				Author author = searchAuthorById(authorId);
+				if (author == null) {
+					author = new Author(authorId, firstName, lastName);
+				}
+				result.addAuthor(author);
 				out.print("Author Id (-1 to finish): ");
 				authorId = scan.nextLong();
 				scan.nextLine();
@@ -213,6 +232,15 @@ public class Library {
 			this.addBook(result);
 		}
 		return result;
+	}
+
+	private Author searchAuthorById(long authorId) {
+		for(Author author: booksByAuthor.keySet()) {
+			if(author.getId() == authorId) {
+				return author;
+			}
+		}
+		return null;
 	}
 
 	private String buildCategoryMenu() {
